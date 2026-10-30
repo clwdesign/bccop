@@ -1,0 +1,228 @@
+<?php
+use CRM_CivicrmAdminUi_ExtensionUtil as E;
+
+// Temporary check can be removed when moving this file to the civi_contribute extension.
+if (!CRM_Core_Component::isEnabled('CiviContribute')) {
+  return [];
+}
+
+return [
+  [
+    'name' => 'SavedSearch_Manage_Premiums',
+    'entity' => 'SavedSearch',
+    'cleanup' => 'unused',
+    'update' => 'unmodified',
+    'params' => [
+      'version' => 4,
+      'values' => [
+        'name' => 'Manage_Premiums',
+        'label' => E::ts('Manage Premiums'),
+        'api_entity' => 'Product',
+        'api_params' => [
+          'version' => 4,
+          'select' => [
+            'name',
+            'sku',
+            'price',
+            'min_contribution',
+            'cost',
+            'financial_type_id:label',
+            'is_active',
+          ],
+          'orderBy' => [],
+          'where' => [],
+          'groupBy' => [],
+          'join' => [],
+          'having' => [],
+        ],
+      ],
+      'match' => [
+        'name',
+      ],
+    ],
+  ],
+  [
+    'name' => 'SavedSearch_Manage_Premiums_SearchDisplay_Manage_Premiums_Table_1',
+    'entity' => 'SearchDisplay',
+    'cleanup' => 'unused',
+    'update' => 'unmodified',
+    'params' => [
+      'version' => 4,
+      'values' => [
+        'name' => 'Manage_Premiums_Table_1',
+        'label' => E::ts('Manage Premium Products'),
+        'saved_search_id.name' => 'Manage_Premiums',
+        'type' => 'table',
+        'settings' => [
+          'description' => '',
+          'sort' => [
+            [
+              'name',
+              'ASC',
+            ],
+          ],
+          'limit' => 50,
+          'pager' => [
+            'expose_limit' => TRUE,
+            'show_count' => TRUE,
+            'hide_single' => TRUE,
+          ],
+          'placeholder' => 5,
+          'columns' => [
+            [
+              'type' => 'field',
+              'key' => 'name',
+              'label' => 'Product Name',
+              'sortable' => TRUE,
+              'editable' => TRUE,
+            ],
+            [
+              'type' => 'field',
+              'key' => 'sku',
+              'label' => 'SKU',
+              'sortable' => TRUE,
+              'editable' => TRUE,
+            ],
+            [
+              'type' => 'field',
+              'key' => 'price',
+              'label' => 'Price',
+              'sortable' => TRUE,
+              'editable' => TRUE,
+            ],
+            [
+              'type' => 'field',
+              'key' => 'min_contribution',
+              'label' => 'Minimum Contribution',
+              'sortable' => TRUE,
+              'editable' => TRUE,
+            ],
+            [
+              'type' => 'field',
+              'key' => 'cost',
+              'label' => 'Cost',
+              'sortable' => TRUE,
+              'editable' => TRUE,
+            ],
+            [
+              'type' => 'field',
+              'key' => 'financial_type_id:label',
+              'label' => 'Financial Type',
+              'sortable' => TRUE,
+              'editable' => TRUE,
+            ],
+            [
+              'type' => 'field',
+              'key' => 'is_active',
+              'label' => 'Enabled',
+              'sortable' => TRUE,
+              'editable' => TRUE,
+            ],
+            [
+              'text' => '',
+              'style' => 'default',
+              'size' => 'btn-xs',
+              'icon' => 'fa-bars',
+              'links' => [
+                [
+                  'entity' => 'Product',
+                  'action' => 'preview',
+                  'join' => '',
+                  'target' => 'crm-popup',
+                  'icon' => 'fa-eye',
+                  'text' => 'Preview',
+                  'style' => 'default',
+                  'path' => '',
+                  'task' => '',
+                  'condition' => [],
+                ],
+                [
+                  'entity' => 'Product',
+                  'action' => 'update',
+                  'join' => '',
+                  'target' => 'crm-popup',
+                  'icon' => 'fa-pencil',
+                  'text' => 'Edit',
+                  'style' => 'default',
+                  'path' => '',
+                  'task' => '',
+                  'condition' => [],
+                ],
+                [
+                  'task' => 'enable',
+                  'entity' => 'Product',
+                  'join' => '',
+                  'target' => 'crm-popup',
+                  'icon' => 'fa-toggle-on',
+                  'text' => 'Enable',
+                  'style' => 'default',
+                  'path' => '',
+                  'action' => '',
+                  'condition' => [],
+                ],
+                [
+                  'task' => 'disable',
+                  'entity' => 'Product',
+                  'join' => '',
+                  'target' => 'crm-popup',
+                  'icon' => 'fa-toggle-off',
+                  'text' => 'Disable',
+                  'style' => 'default',
+                  'path' => '',
+                  'action' => '',
+                  'condition' => [],
+                ],
+                [
+                  'entity' => 'Product',
+                  'action' => 'delete',
+                  'join' => '',
+                  'target' => 'crm-popup',
+                  'icon' => 'fa-trash',
+                  'text' => 'Delete',
+                  'style' => 'danger',
+                  'path' => '',
+                  'task' => '',
+                  'condition' => [],
+                ],
+              ],
+              'type' => 'menu',
+              'alignment' => 'text-right',
+            ],
+          ],
+          'actions' => TRUE,
+          'classes' => [
+            'table',
+            'table-striped',
+            'crm-sticky-header',
+          ],
+          'cssRules' => [
+            [
+              'disabled',
+              'is_active',
+              '=',
+              FALSE,
+            ],
+          ],
+          'toolbar' => [
+            [
+              'path' => '',
+              'icon' => 'fa-plus',
+              'text' => 'Add Product',
+              'style' => 'primary',
+              'condition' => [],
+              'task' => '',
+              'entity' => 'Product',
+              'action' => 'add',
+              'join' => '',
+              'target' => 'crm-popup',
+            ],
+          ],
+        ],
+      ],
+      'match' => [
+        'saved_search_id',
+        'name',
+      ],
+    ],
+  ],
+];

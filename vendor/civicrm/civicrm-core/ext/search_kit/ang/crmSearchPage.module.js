@@ -1,0 +1,53 @@
+(function(angular, $, _) {
+  "use strict";
+
+  // Declare module
+  angular.module('crmSearchPage', CRM.angRequires('crmSearchPage'))
+
+    .config(function($routeProvider) {
+      // Load & render a SearchDisplay
+      $routeProvider.when('/display/:savedSearchName/:displayName?', {
+        controller: 'crmSearchPageDisplay',
+        templateUrl: '~/crmSearchPage/crmSearchPage.html',
+        resolve: {
+          // Load saved search display
+          info: function($route, crmApi4) {
+            const params = $route.current.params;
+            const apiCalls = {
+              search: ['SavedSearch', 'get', {
+                select: ['id', 'name', 'api_entity'],
+                where: [['name', '=', params.savedSearchName]],
+                chain: {
+                  checkAccess: ['SavedSearch', 'checkAccess', {action: 'update', values: {id: '$id'}}, 0],
+                },
+              }, 0],
+            };
+            if (params.displayName) {
+              apiCalls.display = ['SearchDisplay', 'get', {
+                where: [['name', '=', params.displayName], ['saved_search_id.name', '=', params.savedSearchName]],
+              }, 0];
+            } else {
+              apiCalls.display = ['SearchDisplay', 'getDefault', {
+                savedSearch: params.savedSearchName,
+              }, 0];
+            }
+            return crmApi4(apiCalls);
+          }
+        }
+      });
+    })
+
+    // Controller for displaying a search
+    .controller('crmSearchPageDisplay', function($scope, $location, info) {
+      const ctrl = $scope.$ctrl = this;
+      const ts = $scope.ts = CRM.ts('org.civicrm.search_kit');
+      this.display = info.display;
+      this.searchName = info.search.name;
+      this.apiEntity = info.search.api_entity;
+      // Format edit link if user has access
+      this.editLink = info.search.checkAccess.access ? CRM.url('civicrm/admin/search#/edit/' + info.search.id) : false;
+
+      $scope.$watch(() => $location.search(), (params) => this.filters = params);
+    });
+
+})(angular, CRM.$, CRM._);

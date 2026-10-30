@@ -1,0 +1,31 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "assignees": [],
+  "automerge": false,
+  "automergeSchedule": [
+    "every weekend"
+  ],
+  "baseBranchPatterns": [
+    "main"
+  ],
+  "branchPrefix": "renovate/",
+  "extends": [
+    "config:recommended",
+    "group:symfony"
+  ],
+  "labels": [
+    "dependencies"
+  ],
+  "packageRules": [
+    {
+      "matchDepTypes": ["dependencies"],
+      "rangeStrategy": "widen"
+    },
+    {
+      "matchDepTypes": ["devDependencies"],
+      "rangeStrategy": "bump"
+    }
+  ],
+  "prConcurrentLimit": 1,
+  "rebaseWhen": "auto"
+}
