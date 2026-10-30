@@ -21,6 +21,7 @@
         "civicrm/cli-tools": "^2026.03",
         "composer/installers": "^2.3",
         "drupal/admin_toolbar": "^3.6",
+        "drupal/backup_migrate": "^5.1",
         "drupal/civicrm_drush": "^4.0",
         "drupal/core-composer-scaffold": "^11.4",
         "drupal/core-project-message": "^11.4",
